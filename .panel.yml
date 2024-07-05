@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/panmitraxyz/public_html/
+    - /bin/cp * $DEPLOYPATH
+    
