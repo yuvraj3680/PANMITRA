@@ -1,0 +1,202 @@
+// Define the datasource
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+// Define the generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Define the UserDetails model
+model UserDetails {
+  id             Int        @id @default(autoincrement())
+  name           String
+  address        String
+  mobile         String
+  aadhar         String
+  amountType     String
+  pinCode        String
+  email          String    
+  companyName    String
+  pan            String
+  charges        String
+  state          String
+  password       String
+  username       String    @unique 
+  admins         Admin[]   // Opposite relation to Admin
+  wallets        Wallet[]  // Opposite relation to Wallet
+}
+
+// Define the Admin model
+model Admin {
+  id             Int         @id @default(autoincrement())
+  username       String
+  password       String
+  role           String      @default("ADMIN")
+  userDetails    UserDetails @relation(fields: [userDetailsId], references: [id])
+  userDetailsId  Int         @unique
+}
+
+// Define the PANApplication model
+model PANApplication {
+  id                        Int      @id @default(autoincrement())
+  title                     String
+  lastName                  String
+  firstName                 String
+  middleName                String
+  nameOnCard                String
+  dateOfBirth               DateTime
+  gender                    String
+  fatherLastName            String
+  fatherFirstName           String
+  fatherMiddleName          String
+  aadhaarNumber             String
+  nameAsPerAadhaar          String
+  mobileNumber              String
+  emailAddress              String
+  flatRoomDoorBlockNo       String
+  buildingVillageName       String
+  roadStreetLanePostOffice  String
+  areaLocalitySubDivision   String
+  stateUnionTerritory       String
+  townCityDistrict          String
+  pinCode                   String
+  panCardType               String
+  proofOfIdentity           String
+  proofOfAddress            String
+  proofOfDOB                String
+  aadharCardImage           String
+  aadharBack                String
+  photo                     String
+  signature                 String
+  charges                   String
+  createdAt                 DateTime @default(now())
+}
+
+// Define the MinorPAN model
+model MinorPAN {
+  id                        Int      @id @default(autoincrement())
+  title                     String
+  lastName                  String
+  firstName                 String
+  middleName                String
+  nameOnCard                String
+  dateOfBirth               String
+  gender                    String
+  fatherLastName            String
+  fatherFirstName           String
+  fatherMiddleName          String
+  aadhaarNumber             String
+  nameAsPerAadhaar          String
+  mobileNumber              String
+  emailAddress              String
+  flatRoomDoorBlockNo       String
+  buildingVillageName       String
+  roadStreetLanePostOffice  String
+  areaLocalitySubDivision   String
+  state                     String
+  townCityDistrict          String
+  pinCode                   String
+  panCardType               String
+  RAtitle                   String
+  RAlastName                String
+  RAfirstName               String
+  RAmiddleName              String
+  RAflatRoomDoorBlockNo     String
+  RAbuildingVillageName     String
+  RAroadStreetLanePostOffice String
+  RAareaLocalitySubDivision String
+  RAtownCityDistrict        String
+  RAstate                   String
+  RApinCode                 String
+  proofOfIdentity           String
+  proofOfAddress            String
+  proofOfDOB                String
+  aadharCardImage           String
+  aadharBackImage           String
+  guardianKYCfile           String
+  guardianKYCfileBack       String
+  photo                     String
+  signature                 String
+  charges                   String
+}
+
+// Define the NSDLPAN model
+model NSDLPAN {
+  id          Int      @id @default(autoincrement())
+  panOption   String
+  name        String
+  dateOfBirth DateTime
+  gender      String
+  mobileNumber String
+  email       String
+}
+
+// Define the mSDLESIGN model
+model mSDLESIGN {
+  id            Int      @id @default(autoincrement())
+  panOption     String
+  name          String
+  dateOfBirth   DateTime
+  gender        String
+  mobileNumber  String
+  email         String
+}
+
+// Define the PANCustomer model
+model PANCustomer {
+  id        Int        @id @default(autoincrement())
+  name      String
+  uid       String     @unique
+  dob       String
+  pan       String?
+  status    PANStatus
+  requests  PANRequest[]
+}
+
+// Define the PANRequest model
+model PANRequest {
+  id         Int       @id @default(autoincrement())
+  status     Boolean
+  msg        String
+  customerId Int
+  customer   PANCustomer @relation(fields: [customerId], references: [id])
+}
+
+// Enum for PANStatus
+enum PANStatus {
+  Pending
+  Accepted
+  Rejected
+}
+model Wallet {
+  id          Int        @id @default(autoincrement())
+  balance     Float      @default(0)
+  userDetailsId      Int
+  userDetails UserDetails @relation(fields: [userDetailsId], references: [id])
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          Int        @id @default(autoincrement())
+  amount      Float
+  type        TransactionType
+  walletId    Int
+  wallet      Wallet      @relation(fields: [walletId], references: [id])
+  charges     Charge[]
+}
+
+model Charge {
+  id            Int        @id @default(autoincrement())
+  amount        Float
+  description   String
+  transactionId Int
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+}
+
+enum TransactionType {
+  AddMoney
+  Charge
+}
