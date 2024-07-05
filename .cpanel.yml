@@ -1,0 +1,12 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/panmitraxyz/public_html/
+    - /bin/cp * $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - npm install --production
+    - npm run build
+    - npx prisma migrate deploy --preview-feature
+    - pm2 restart <panmitra>
+
+    
