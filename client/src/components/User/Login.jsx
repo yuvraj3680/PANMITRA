@@ -164,7 +164,7 @@ const Login = () => {
                                     type="checkbox"
                                     className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                                   />
-                                  <label htmlFor="remember-me" className="ml-2 text-sm text-gray-900">Remember me</label>
+                                  <label htmlFor="remember-me" className="ml-2 text-sm text-gray-900">Remember me and you</label>
                                 </div>
                                 <div className="text-sm">
                                   <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Forgot your password?</a>
