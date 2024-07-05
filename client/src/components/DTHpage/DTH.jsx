@@ -4,7 +4,7 @@ const DTH = () => {
   return (
     <div className="flex justify-center items-center bg-indigo-300 min-h-screen">
       <div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-blue-600 mb-4">Recharge DTH</h1>
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-4">Recharge DTH For DTH</h1>
         
         <div className="mb-4">
           <label className="block text-lg font-semibold mb-2">Customer ID no</label>
