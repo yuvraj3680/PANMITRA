@@ -1,14 +1,15 @@
 // Define the datasource
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.0.x"]
+}
 datasource db {
   provider = "mysql"
   url      = env("DB_URL")
 }
 
 // Define the generator
-generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native"]
-}
+
 
 // Define the UserDetails model
 model UserDetails {

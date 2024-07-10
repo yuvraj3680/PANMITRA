@@ -11,7 +11,7 @@ const newPANRoutes = require('./routes/NewPANroutes');
 const minorPanRoutes = require('./routes/MinorPanRoutes');
 const nsdlPanRoutes = require('./routes/NSDLRoutes');
 const nsdlEsignRoutes = require('./routes/NSDL-E-SIGNRoutes');
-const findPanRoutes = require('./routes/FindPanRoutes');
+const findPanRoutes = require('./routes/FIndPanRoutes');
 const walletRoutes = require('./routes/WallateRoutes');
 
 const app = express();

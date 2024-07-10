@@ -1,5 +1,5 @@
-const Admin = require('../model/adminModel');
-const UserDetails = require('../model/userModel');
+const Admin = require('../model/adminmodel');
+// const UserDetails = require('../model/userModel');
 
 const adminController = {
   createAdmin: async (req, res) => {
