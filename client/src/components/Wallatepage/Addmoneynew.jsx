@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddMoneyForm = () => {
   const [amount, setAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      // Do something with userId, e.g., fetch data based on userId
+      console.log('User ID from localStorage:', userId);
+    } else {
+      console.log('User ID not found in localStorage');
+    }
+  }, []); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,34 +27,24 @@ const AddMoneyForm = () => {
 
     try {
       // Get userId from localStorage
-      const userDetailsString = localStorage.getItem('UserDetails');
-      console.log('Retrieved UserDetails from localStorage:', userDetailsString);
-
-      if (!userDetailsString) {
-        console.log('UserDetails not found in localStorage');
-        setErrorMessage('User ID not found. Please log in again.');
-        return;
-      }
-
-      const userDetails = JSON.parse(userDetailsString);
-      const userId = userDetails?.id;
-      console.log('Parsed userId from UserDetails:', userId);
-
+      // const userDetailsString = localStorage.getItem('UserDetails');
+      const userId = localStorage.getItem('userId');
       if (!userId) {
-        console.log('User ID not found in parsed UserDetails');
         setErrorMessage('User ID not found. Please log in again.');
         return;
       }
+
+      // const userDetails = JSON.parse(userDetailsString);
+      // const userId = userDetails?.userId; // Ensure you're using the correct key based on your storage
 
       // Make API call to add money
-      const response = await axios.post(`http://localhost:8000/wallate/${userId}/addMoney`, { amount: amountValue });
-      console.log('Add money response:', response.data);
+      const response = await axios.post(`http://localhost:8000/wallet/${userId}/addMoney`, { amount: amountValue });
 
       // Clear form and error message
       setAmount('');
       setErrorMessage('');
 
-      // Show success message (you might want to replace alert with a more user-friendly UI component)
+      // Show success message
       alert(`Successfully added ${amountValue} Rs.`);
     } catch (error) {
       console.error('Error adding money:', error);
@@ -63,8 +63,7 @@ const AddMoneyForm = () => {
             <div className="flex-1">
               <div className="mb-6">
                 <label htmlFor="amount" className="font-bold text-xl text-gray-700 mb-2">
-                  Amount{' '}
-                  <span className="text-red-600">(Min 100rs. Max 5000rs.)</span>
+                  Amount <span className="text-red-600">(Min 100rs. Max 5000rs.)</span>
                 </label>
                 <br />
                 <input

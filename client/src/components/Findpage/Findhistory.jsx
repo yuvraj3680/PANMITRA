@@ -31,6 +31,7 @@ const Findhistory = () => {
   const [transactions, setTransactions] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [pannumber, setPannumber] = useState([]);
+  const [userId ,setUserId] = useState([]);
 
   useEffect(() => {
     fetchTransactions();
@@ -40,14 +41,15 @@ const Findhistory = () => {
 
   const fetchTransactions = async () => {
     try {
-      const userDetailsString = localStorage.getItem('UserDetails');
-      if (!userDetailsString) {
-        console.log('UserDetails not found in localStorage');
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        setUserId(userId);
+        // console.log('UserDetails not found in localStorage');
         return;
       }
 
-      const userDetails = JSON.parse(userDetailsString);
-      const userId = userDetails?.id;
+      // const userDetails = JSON.parse(userDetailsString);
+      // const userId = userDetails?.id;
       if (!userId) {
         console.log('User ID not found in UserDetails');
         return;
@@ -61,14 +63,14 @@ const Findhistory = () => {
   };
 
   const fetchUserInfo = () => {
-    const userDetailsString = localStorage.getItem('UserDetails');
+    const userDetailsString = localStorage.getItem('userId');
     if (!userDetailsString) {
       console.log('UserDetails not found in localStorage');
       return;
     }
 
     const userDetails = JSON.parse(userDetailsString);
-    setUserInfo(userDetails);
+    setUserInfo(userId);
   };
 
   const fetchPanData = async () => {

@@ -7,6 +7,7 @@ datasource db {
 // Define the generator
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 // Define the UserDetails model

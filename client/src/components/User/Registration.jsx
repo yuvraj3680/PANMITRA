@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../Api"; // Assuming createUser function is correctly defined in Api.js
-import panmitra from "../../assets/panmitra.png";
+import panmitraLogo from "../../assets/panmitra.png";
 import B2 from "../../assets/B2.jpg";
 import B3 from "../../assets/B3.jpg";
 import B4 from "../../assets/B4.jpg";
 
 const Registration = () => {
-  const sliderRef = useRef(null);
   const navigate = useNavigate();
+  const sliderRef = useRef(null);
 
   // State to manage form input and captcha
   const [input, setInput] = useState({
@@ -73,7 +73,7 @@ const Registration = () => {
       setError(null);
       localStorage.removeItem("registrationInput"); // Clear saved input after successful registration
 
-      // Save user details in localStorage
+      // Save user details in localStorage after registration
       localStorage.setItem("UserDetails", JSON.stringify(userData));
 
       navigate("/login");
@@ -96,7 +96,7 @@ const Registration = () => {
       <header className="py-4 bg-white shadow-md">
         <div className="max-w-4xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center">
-            <img src={panmitra} alt="Panmitra Logo" className="h-10 mr-2" />
+            <img src={panmitraLogo} alt="Panmitra Logo" className="h-10 mr-2" />
           </div>
           <div>
             <p className="text-sm">
@@ -111,30 +111,16 @@ const Registration = () => {
         {/* Image Slider */}
         <div className="mt-40 w-full h-auto max-w-xl overflow-hidden relative mb-4 md:mb-0">
           <div ref={sliderRef} className="flex transition-all duration-500">
-            <div className="w-full flex-shrink-0">
-              <img
-                src={B2}
-                alt="Slide 1"
-                className="w-full h-full object-cover"
-                style={{ minWidth: "100%", minHeight: "100%" }}
-              />
-            </div>
-            <div className="w-full flex-shrink-0">
-              <img
-                src={B3}
-                alt="Slide 2"
-                className="w-full h-full object-cover"
-                style={{ minWidth: "100%", minHeight: "100%" }}
-              />
-            </div>
-            <div className="w-full flex-shrink-0">
-              <img
-                src={B4}
-                alt="Slide 3"
-                className="w-full h-full object-cover"
-                style={{ minWidth: "100%", minHeight: "100%" }}
-              />
-            </div>
+            {[B2, B3, B4].map((image, index) => (
+              <div key={index} className="w-full flex-shrink-0">
+                <img
+                  src={image}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  style={{ minWidth: "100%", minHeight: "100%" }}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -274,40 +260,18 @@ const Registration = () => {
                 <label
                   htmlFor="amountType"
                   className="block text-sm font-medium text-gray-700"
-                >
-                  Amount Type
+                >                  Amount Type
                 </label>
-                <select
+                <input
                   id="amountType"
                   name="amountType"
                   value={input.amountType}
                   onChange={handleChange}
-                  autoComplete="amountType"
-                  required
-                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                >
-                  <option value="">Select Amount Type</option>
-                  <option value="fixed">Fixed</option>
-                  <option value="variable">Variable</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  htmlFor="companyName"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Company Name
-                </label>
-                <input
-                  id="companyName"
-                  name="companyName"
-                  value={input.companyName}
-                  onChange={handleChange}
                   type="text"
-                  autoComplete="companyName"
+                  autoComplete="off"
                   required
                   className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Company Name"
+                  placeholder="Amount Type"
                 />
               </div>
               <div>
@@ -323,7 +287,7 @@ const Registration = () => {
                   value={input.pan}
                   onChange={handleChange}
                   type="text"
-                  autoComplete="pan"
+                  autoComplete="off"
                   required
                   className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="PAN No"
@@ -342,10 +306,29 @@ const Registration = () => {
                   value={input.charges}
                   onChange={handleChange}
                   type="text"
-                  autoComplete="charges"
+                  autoComplete="off"
                   required
                   className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Charges"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="companyName"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Company Name
+                </label>
+                <input
+                  id="companyName"
+                  name="companyName"
+                  value={input.companyName}
+                  onChange={handleChange}
+                  type="text"
+                  autoComplete="off"
+                  required
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Company Name"
                 />
               </div>
               <div>
@@ -369,6 +352,25 @@ const Registration = () => {
               </div>
               <div>
                 <label
+                  htmlFor="state"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  State
+                </label>
+                <input
+                  id="state"
+                  name="state"
+                  value={input.state}
+                  onChange={handleChange}
+                  type="text"
+                  autoComplete="off"
+                  required
+                  className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="State"
+                />
+              </div>
+              <div>
+                <label
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700"
                 >
@@ -388,58 +390,32 @@ const Registration = () => {
               </div>
               <div>
                 <label
-                  htmlFor="state"
+                  htmlFor="captchaInput"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  State
+                  Captcha ({captcha})
                 </label>
                 <input
-                  id="state"
-                  name="state"
-                  value={input.state}
+                  id="captchaInput"
+                  name="captchaInput"
+                  value={input.captchaInput}
                   onChange={handleChange}
                   type="text"
-                  autoComplete="state"
+                  autoComplete="off"
                   required
                   className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="State"
+                  placeholder="Enter Captcha"
                 />
+                {error && (
+                  <p className="mt-2 text-sm text-red-600">{error}</p>
+                )}
               </div>
             </div>
 
-            {/* Captcha */}
-            <div className="flex items-center">
-              <label
-                htmlFor="captchaInput"
-                className="block text-sm font-medium text-gray-700 flex-shrink-0"
-              >
-                Captcha: {captcha}
-              </label>
-              <input
-                id="captchaInput"
-                name="captchaInput"
-                value={input.captchaInput}
-                onChange={handleChange}
-                type="text"
-                autoComplete="off"
-                required
-                className="flex-1 ml-2 px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="Enter Captcha"
-              />
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="mt-2 text-sm text-red-600">
-                {error}
-              </div>
-            )}
-
-            {/* Submit Button */}
             <div>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mt-4 flex justify-center items-center bg-indigo-600 border border-transparent rounded-md font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Register
               </button>
@@ -449,11 +425,33 @@ const Registration = () => {
       </main>
 
       {/* Footer */}
-      <footer className="py-4 bg-gray-800 text-white text-center">
-        <div className="max-w-4xl mx-auto">
-          <p className="text-sm">
-            &copy; {new Date().getFullYear()} Panmitra. All rights reserved.
-          </p>
+      <footer className="bg-white">
+        <div className="max-w-8xl mx-auto py-4 px-4 flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-600">
+              © 2024 Panmitra Online Services Pvt Ltd. All rights reserved.
+            </p>
+          </div>
+          <div>
+            <ul className="flex space-x-4">
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-indigo-500 transition duration-150 ease-in-out"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-600 hover:text-indigo-500 transition duration-150 ease-in-out"
+                >
+                  Terms of Service
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </footer>
     </div>
@@ -461,3 +459,4 @@ const Registration = () => {
 };
 
 export default Registration;
+

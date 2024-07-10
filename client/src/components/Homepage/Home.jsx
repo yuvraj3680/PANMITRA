@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Header from '../Headerpage/Header';
 import Sidebar from '../Navbarpage/Sidebar';
 import Dashboard from '../Dashboardpage/Dashboard';
@@ -30,14 +30,6 @@ import Wallaterecord from '../Wallatepage/Wallaterecord';
 import Footer from '../FooterPage/Footer';
 
 const Home = () => {
-  // Simulate authentication check (replace with your actual authentication logic)
-  const isAuthenticated = localStorage.getItem('token') !== null;
-
-  // Redirect to login if not authenticated
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <Header />

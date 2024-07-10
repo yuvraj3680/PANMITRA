@@ -14,10 +14,10 @@ const Findpan = () => {
 
   useEffect(() => {
     // Fetch userId from localStorage on component mount
-    const userDetailsString = localStorage.getItem('UserDetails');
-    if (userDetailsString) {
-      const userDetails = JSON.parse(userDetailsString);
-      setUserId(userDetails.id);
+    const userId= localStorage.getItem('userId');
+    if (userId) {
+      // const userDetails = JSON.parse(userDetailsString);
+      setUserId(userId);
     }
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
@@ -68,7 +68,7 @@ const Findpan = () => {
         description: `Aadhaar Number: ${aadhaarNumber}`,
         amount: charges.amount,
       };
-      const response = await axios.post(`http://localhost:8000/wallate/${userId}/charges`, postData);
+      const response = await axios.post(`http://localhost:8000/wallet/${userId}/charges`, postData);
       console.log(response.data);
       setCharges({ ...charges, amount: response.data.balance });
     } catch (error) {
@@ -111,7 +111,7 @@ const Findpan = () => {
                 type="text"
                 id="amount"
                 name="amount"
-                value="40"
+                value={charges.amount}
                 readOnly
                 className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />

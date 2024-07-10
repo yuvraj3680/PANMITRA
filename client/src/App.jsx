@@ -2,22 +2,36 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './components/Homepage/Home';
 import Login from './components/User/Login';
+// import NotFound from './components/NotFound';
+
+// PrivateRoute Component
+const PrivateRoute = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('token') !== null;
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
 
 const App = () => {
-  // Simulate authentication check (replace with your actual logic)
-  const isAuthenticated = localStorage.getItem('token') !== null;
-
   return (
     <Router>
       <Routes>
-        {/* Route to login page */}
+        {/* Public route for login page */}
         <Route path="/login" element={<Login />} />
 
-        {/* Private route for home page */}
+        {/* Private routes for authenticated users */}
         <Route
           path="/*"
-          element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />}
+          element={
+             <PrivateRoute>
+              <Home />
+             </PrivateRoute>
+          }
         />
+
+        {/* Redirect root to login page */}
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        {/* Catch all route for 404 not found */}
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </Router>
   );

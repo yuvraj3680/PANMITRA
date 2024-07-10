@@ -33,6 +33,7 @@ const Wallaterecord = () => {
   const [endDate, setEndDate] = useState('');
   const [transactions, setTransactions] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [userId, setUserId] = useState(null); 
 
   useEffect(() => {
     fetchTransactions();
@@ -41,20 +42,21 @@ const Wallaterecord = () => {
 
   const fetchTransactions = async () => {
     try {
-      const userDetailsString = localStorage.getItem('UserDetails');
-      if (!userDetailsString) {
-        console.log('UserDetails not found in localStorage');
-        return;
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        setUserId(userId); // Set userId from localStorage
+      } else {
+        console.log('User ID not found in localStorage');
       }
 
-      const userDetails = JSON.parse(userDetailsString);
-      const userId = userDetails?.id;
-      if (!userId) {
-        console.log('User ID not found in UserDetails');
-        return;
-      }
+      // const userDetails = JSON.parse(userDetailsString);
+      // const ser = userDetails?.id;
+      // if (!userId) {
+      //   console.log('User ID not found in UserDetails');
+      //   return;
+      // }
 
-      const response = await axios.get(`http://localhost:8000/wallate/${userId}/transactions`);
+      const response = await axios.get(`http://localhost:8000/wallet/${userId}/transactions`);
       setTransactions(response.data.transactions);
     } catch (error) {
       console.error('Error fetching transactions:', error);
